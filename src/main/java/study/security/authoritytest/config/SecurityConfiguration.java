@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                     .authorizeRequests()
-                    .mvcMatchers("/greeting").hasRole("ADMIN")
+                    .mvcMatchers("/greeting/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
                     .accessDecisionManager(accessDecisionManager())
         ;
