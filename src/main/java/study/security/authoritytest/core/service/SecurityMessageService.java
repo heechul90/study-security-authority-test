@@ -1,4 +1,4 @@
-package study.security.authoritytest.service;
+package study.security.authoritytest.core.service;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;

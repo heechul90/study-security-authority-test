@@ -1,5 +1,7 @@
 package study.security.authoritytest.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
@@ -22,9 +24,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.inMemoryAuthentication()
                 .withUser(
                         User.withDefaultPasswordEncoder()
-                                .username("user")
+                                .username("user1")
                                 .password("1234")
-                                .roles("USER")
+                                .roles("USER", "STUDENT")
+                ).withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("user2")
+                                .password("1234")
+                                .roles("USER", "STUDENT")
+                ).withUser(
+                        User.withDefaultPasswordEncoder()
+                                .username("tutor1")
+                                .password("1234")
+                                .roles("USER", "TUTOR")
                 ).withUser(
                         User.withDefaultPasswordEncoder()
                                 .username("admin")
@@ -37,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new AccessDecisionManager() {
             @Override
             public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
-
+                throw new AccessDeniedException("접근 금지");
             }
 
             @Override
@@ -52,6 +64,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         };
     }
 
+    @Autowired private NameCheck nameCheck;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -59,9 +73,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic()
                 .and()
                     .authorizeRequests()
-                    .mvcMatchers("/greeting/**").hasRole("ADMIN")
+                    .mvcMatchers("/greeting/{name}")
+                        .access("@nameCheck.check(#name)")
                     .anyRequest().authenticated()
-                    .accessDecisionManager(accessDecisionManager())
+//                    .accessDecisionManager(accessDecisionManager())
         ;
     }
 }

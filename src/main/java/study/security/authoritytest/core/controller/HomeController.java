@@ -1,11 +1,11 @@
-package study.security.authoritytest.controller;
+package study.security.authoritytest.core.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import study.security.authoritytest.service.SecurityMessageService;
+import study.security.authoritytest.core.service.SecurityMessageService;
 
 @RestController
 @RequiredArgsConstructor

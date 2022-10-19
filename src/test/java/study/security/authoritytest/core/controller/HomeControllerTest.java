@@ -1,4 +1,4 @@
-package study.security.authoritytest.controller;
+package study.security.authoritytest.core.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
